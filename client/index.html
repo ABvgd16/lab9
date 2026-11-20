@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход в систему</title>
+  <style>
+    /* Стили страницы входа (перенесены из дизайна) */
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0a0e14;
+      color: #c8cfdb;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    .grid {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0.045;
+      background-image:
+        linear-gradient(rgba(82,94,118,0.55) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(82,94,118,0.55) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .glow {
+      position: absolute; left: 50%; top: 50%;
+      width: 520px; height: 520px; border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,114,196,0.07);
+      filter: blur(120px);
+      pointer-events: none;
+    }
+    .wrap {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 16px;
+    }
+    .card {
+      width: 100%; max-width: 400px;
+      background: #0d1117;
+      border: 1px solid #232b3d;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+      animation: slideUp 0.4s ease-out;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px; }
+    .logo {
+      width: 48px; height: 48px; border-radius: 16px;
+      background: linear-gradient(135deg, #0090e8, #005a9c);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 15px -3px rgba(0,114,196,0.25);
+    }
+    .brand h1 { margin: 0; font-size: 17px; font-weight: 600; color: #c8cfdb; line-height: 1.2; }
+    .brand p { margin: 4px 0 0; font-size: 11px; color: #525e76; max-width: 190px; line-height: 1.35; }
+
+    h2 { margin: 0; font-size: 22px; font-weight: 600; color: #c8cfdb; letter-spacing: -0.01em; }
+    .sub { margin: 8px 0 24px; font-size: 13px; color: #525e76; line-height: 1.6; }
+
+    .alert {
+      display: none;
+      align-items: flex-start; gap: 10px;
+      margin-bottom: 20px; padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(239,68,68,0.2);
+      background: rgba(239,68,68,0.1);
+      color: #f87171; font-size: 12px;
+      animation: fadeIn 0.4s ease-out;
+    }
+    .alert.show { display: flex; }
+    .alert svg { flex-shrink: 0; margin-top: 1px; }
+
+    .field { display: block; margin-bottom: 16px; }
+    .field span { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 500; color: #7a8499; }
+    .input-wrap { position: relative; }
+    .input-wrap .icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+    input {
+      width: 100%;
+      background: #161b27;
+      border: 1px solid #232b3d;
+      border-radius: 8px;
+      padding: 12px 12px 12px 40px;
+      font-size: 13px; color: #c8cfdb; font-family: inherit;
+      outline: none; transition: border-color 0.15s;
+    }
+    input.with-eye { padding-right: 44px; }
+    input::placeholder { color: #3b475f; }
+    input:focus { border-color: #0090e8; }
+
+    .eye {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; padding: 4px; cursor: pointer;
+      color: #525e76; display: flex; border-radius: 6px;
+    }
+    .eye:hover { color: #a8b1c2; }
+
+    .submit {
+      margin-top: 8px; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #0072c4; color: #fff; border: none; border-radius: 8px;
+      padding: 12px 16px; font-size: 13px; font-weight: 600;
+      font-family: inherit; cursor: pointer; transition: background 0.15s;
+    }
+    .submit:hover { background: #0090e8; }
+    .submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .footer { margin: 32px 0 0; text-align: center; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 10px; color: #3b475f; }
+  </style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+
+  <div class="wrap">
+    <section class="card">
+      <div class="brand">
+        <div class="logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div>
+          <h1>Process Mining</h1>
+          <p>Анализ и оптимизация бизнес-процессов</p>
+        </div>
+      </div>
+
+      <h2>Вход в систему</h2>
+      <p class="sub">Введите логин и пароль для продолжения</p>
+
+      <div id="alert" class="alert" role="alert">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span id="alert-text">Неверный логин или пароль</span>
+      </div>
+
+      <form id="form">
+        <label class="field">
+          <span>Логин</span>
+          <div class="input-wrap">
+            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#525e76" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input id="login" type="text" autocomplete="username" placeholder="Введите логин">
+          </div>
+        </label>
+
+        <label class="field">
+          <span>Пароль</span>
+          <div class="input-wrap">
+            <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#525e76" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input id="password" class="with-eye" type="password" autocomplete="current-password" placeholder="Введите пароль">
+            <button type="button" class="eye" id="eye" aria-label="Показать пароль">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </label>
+
+        <button type="submit" class="submit" id="submit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span id="submit-text">Войти</span>
+        </button>
+      </form>
+
+      <p class="footer">БГУИР · Курсовой проект · 2026</p>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    const форма = document.getElementById("form");
+    const блокОшибки = document.getElementById("alert");
+    const текстОшибки = document.getElementById("alert-text");
+    const кнопка = document.getElementById("submit");
+    const текстКнопки = document.getElementById("submit-text");
+    const полеПароля = document.getElementById("password");
+
+    // Кнопка-глаз: показать или скрыть пароль
+    document.getElementById("eye").addEventListener("click", () => {
+      полеПароля.type = полеПароля.type === "password" ? "text" : "password";
+    });
+
+    function показатьОшибку(текст) {
+      текстОшибки.textContent = текст;
+      блокОшибки.classList.add("show");
+    }
+
+    // Отправляем логин и пароль на сервер, запоминаем токен и переходим на дашборд
+    форма.addEventListener("submit", async (событие) => {
+      событие.preventDefault();
+      блокОшибки.classList.remove("show");
+      кнопка.disabled = true;
+      текстКнопки.textContent = "Вход…";
+      try {
+        const ответ = await fetch(API_URL + "/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            login: document.getElementById("login").value,
+            password: полеПароля.value,
+          }),
+        });
+        const данные = await ответ.json();
+        if (!ответ.ok) {
+          показатьОшибку(данные.detail || "Ошибка входа");
+        } else {
+          // Сначала сохраняем токен, и только потом переходим на дашборд
+          localStorage.setItem("token", данные.access_token);
+          localStorage.setItem("full_name", данные.full_name);
+          localStorage.setItem("role", данные.role);
+          window.location.href = "dashboard.html";
+          return;
+        }
+      } catch (ошибка) {
+        показатьОшибку("Нет связи с сервером. Проверьте, что он запущен.");
+      }
+      кнопка.disabled = false;
+      текстКнопки.textContent = "Войти";
+    });
+  </script>
+</body>
+</html>

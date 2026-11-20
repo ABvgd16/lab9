@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Проверка связи</title>
+</head>
+<body style="font-family: sans-serif; padding: 40px;">
+  <h2>Проверка связи клиента с сервером</h2>
+  <button onclick="проверить()">Проверить связь</button>
+  <p id="результат"></p>
+
+  <script>
+    // Отправляем запрос на сервер и показываем ответ на странице
+    async function проверить() {
+      const поле = document.getElementById("результат");
+      try {
+        const ответ = await fetch("http://127.0.0.1:8000/");
+        const данные = await ответ.json();
+        поле.textContent = "Ответ сервера: " + данные["сообщение"];
+      } catch (ошибка) {
+        поле.textContent = "Связи нет. Проверьте, что сервер запущен.";
+      }
+    }
+  </script>
+</body>
+</html>

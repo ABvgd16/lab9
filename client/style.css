@@ -1,0 +1,74 @@
+/* Общие стили всех страниц. Цвета взяты из дизайна (тёмно-синяя тема). */
+
+:root {
+    --bg: #0a0e14;
+    --panel: #0d1117;
+    --card: #161b27;
+    --border: #232b3d;
+    --text: #c8cfdb;
+    --text-dim: #7a8499;
+    --brand: #0090e8;
+    --brand-light: #36a9ff;
+    --green: #22d3a0;
+    --red: #f87171;
+    --yellow: #fbbf24;
+  }
+  
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+  }
+  
+  h1, h2, h3 { margin: 0; color: #e6ebf5; }
+  
+  /* Карточка */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  
+  /* Поля ввода */
+  label { display: block; font-size: 12px; color: var(--text-dim); margin-bottom: 6px; }
+  
+  input, select {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+  }
+  input:focus, select:focus { outline: none; border-color: var(--brand); }
+  
+  /* Кнопки */
+  button {
+    background: var(--brand);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  button:hover { background: var(--brand-light); }
+  button.secondary {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  button.secondary:hover { background: #1c2333; }
+  
+  /* Сообщения */
+  .error { color: var(--red); font-size: 13px; margin-top: 12px; }
+  .success { color: var(--green); font-size: 13px; margin-top: 12px; }
